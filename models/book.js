@@ -12,11 +12,11 @@ var BookSchema = new Schema({
 });
 
 // Virtual for books's URL
-AuthorSchema
+BookSchema
   .virtual('url')
   .get(function() {
     return '/catalog/book' + this._id;
   });
 
 // Export model
-model.exports = mongoose.model('Book', BookSchema);
+module.exports = mongoose.model('Book', BookSchema);
