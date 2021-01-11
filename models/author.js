@@ -32,5 +32,4 @@ AuthorSchema
   });
 
 // Export model
-
 model.exports = mongoose.model('Author', AuthorSchema);
