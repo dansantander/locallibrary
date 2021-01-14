@@ -3,11 +3,14 @@ var Author = require('../models/author');
 var Genre = require('../models/genre');
 var BookInstance = require('../models/bookinstance');
 
+var async = require('async');
+
 exports.index = function(req, res) {
     async.parallel({
-        book_count: function(callback) {
+        // this function needs an argument to work, it expects a callback.
+        book_count: function(whatever) {
             // Pass an empty object as match condition to find all documents of this collection
-            Book.countDocuments({}, callback);
+            Book.countDocuments({}, whatever);
         },
         book_instance_count: function(callback) {
             BookInstance.countDocuments({}, callback);
@@ -27,10 +30,22 @@ exports.index = function(req, res) {
 };
 
 // Display list of all books.
-exports.book_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book list');
-};
-
+exports.book_list = function(req, res, next) {
+    // You can search for records using query methods,
+    // specifying the query conditions as a JSON document. 
+    // find all books and return, selecting the title and author fields
+    Book.find({}, 'title author')
+    // Here we also call populate() on Book,
+    // specifying the author field 
+    // —this will replace the stored book author id with the full author details.
+      .populate('author')
+      .exec(function (err, list_books) {
+        if (err) { return next(err); }
+        //Successful, so render
+        res.render('book_list', { title: 'Book List', book_list: list_books });
+      });
+  
+  };
 // Display detail page for a specific book.
 exports.book_detail = function(req, res) {
     res.send('NOT IMPLEMENTED: Book detail: ' + req.params.id);
