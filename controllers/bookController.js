@@ -33,11 +33,11 @@ exports.index = function(req, res) {
 exports.book_list = function(req, res, next) {
     // You can search for records using query methods,
     // specifying the query conditions as a JSON document. 
-    // find all books and return, selecting the title and author fields
+    // Here we find all books selecting the title and author fields
     Book.find({}, 'title author')
-    // Here we also call populate() on Book,
+    // We also call populate() on Book,
     // specifying the author field 
-    // —this will replace the stored book author id with the full author details.
+    // this will replace the stored book author id with the full author details.
       .populate('author')
       .exec(function (err, list_books) {
         if (err) { return next(err); }
