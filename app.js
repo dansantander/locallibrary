@@ -1,11 +1,11 @@
-// require('dotenv').config();
+require('dotenv').config();
 
 var createError = require('http-errors');
 var express = require('express');
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://dansantander:artosaari1@cluster0.e1juq.mongodb.net/local_library?retryWrites=true&w=majority';
+var mongoDB = `mongodb+srv://dansantander:${process.env.DB_USER}@cluster0.e1juq.mongodb.net/local_library?retryWrites=true&w=majority`;
 
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
