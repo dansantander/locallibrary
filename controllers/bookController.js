@@ -50,7 +50,6 @@ exports.book_list = function(req, res, next) {
 // Display detail page for a specific book.
 exports.book_detail = function(req, res, next) {
 
-    console.log(req.params.id);
     async.parallel({
         book: function(callback) {
             Book.findById(req.params.id)
@@ -59,7 +58,6 @@ exports.book_detail = function(req, res, next) {
               .exec(callback);
         },
         book_instance: function(callback) {
-
           BookInstance.find({ 'book': req.params.id })
           .exec(callback);
         },
