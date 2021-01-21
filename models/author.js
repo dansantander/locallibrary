@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const { DateTime } = require("luxon");  //for date handling
 
 var Schema = mongoose.Schema;
 
@@ -21,8 +22,22 @@ AuthorSchema
 AuthorSchema
   .virtual('lifespan')
   .get(function() {
+    // The output will be: (Thu Jan 01 1920 17:23:24 GMT-0636 (Central Standard Time) - Sun Apr 05 1992 18:00:00 GMT-0600 (Central Standard Time))
     return (this.date_of_death.getYear() - this.date_of_birth.getYear()).toString();
   });
+
+// Virtual for author's challenge lifespan
+AuthorSchema.virtual('lifespan2').get(function() {
+  var lifetime_string = '';
+  if (this.date_of_birth) {
+    lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
+  }
+  lifetime_string += ' - ';
+  if (this.date_of_death) {
+    lifetime_string += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED)
+  }
+  return lifetime_string;
+});
 
 // Virtual for author's URL
 AuthorSchema
