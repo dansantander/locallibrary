@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-const { DateTime } = require("luxon");  //for date handling
+const { DateTime } = require("luxon");
 
 var Schema = mongoose.Schema;
 
@@ -30,6 +30,9 @@ AuthorSchema
 AuthorSchema.virtual('lifespan2').get(function() {
   var lifetime_string = '';
   if (this.date_of_birth) {
+    //fromJSDate is a luxon function that creates a DateTime from a Javascript Date object.
+    // Output: To convert the DateTime to other representations, use the toRelative, toRelativeCalendar,
+    // toJSON, toISO, toHTTP, toObject, toRFC2822, toString, ** toLocaleString **, toFormat, toMillis and toJSDate.
     lifetime_string = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
   }
   lifetime_string += ' - ';
